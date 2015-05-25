@@ -1,0 +1,92 @@
+
+;subtrator
+
+(defun sub (x y)
+	(cond
+		((equal y 0) x)
+		((negativo y)
+			(sub (1+ x) (1+ y))
+		)
+		('t (sub (1- x) (1- y)))
+	)
+)
+
+(defun add (x y)
+	(cond
+		((negativo y)
+			(cond
+				((negativo x) (add (1+ x) (1- y)))
+				('t (add y x))
+			)
+		)
+		((equal y 0) x)
+		('t (add (1+ x) (1- y)))
+	)
+)
+
+;multiplicador
+
+(defun mult (x y)
+	(cond
+		((equal y 1) x)
+		((equal y 0) 0)
+		((negativo y)
+			(sub (mult x (1+ y)) x)
+		)
+		('t (add x (mult x (1- y))))
+	)
+)
+
+;listaIguais
+
+(defun listasIguais(x y)
+	(cond((atom x)
+			(cond((atom y 't)
+				('t 'nil)
+				)
+			)
+			((atom y) 'nil)
+			((equal(car x) (car y))(listasIguais (cdr x) (cdr y)))
+			('t 'nil)
+			))
+)
+
+;verifica se os dois sao negativos
+
+(defun negAux (A D)
+	(cond ((equal A 0) 't)
+		((equal D 0) 'nil)
+		('t (negAux (1+ A)(1- D)))
+	)
+)
+
+;verifica se e negativo
+
+(defun negativo (x)
+	(cond ((equal x 0) 'nil)
+		('t (negAux x x))
+	)
+)
+
+;comparadores:
+;maior
+(defun maior (x y)
+	(cond
+		((equal x 0)
+			((negativo y) x)
+			('t y)
+		)
+		((equal y 0)
+			((negativo x) y)
+			('t x)
+		)
+		((negativo x)
+			((negativo y) (maior (1+ x) (1+ y)))
+			('t (maior (1+ x) (1- y)))
+		)
+		((negativo y)
+			('t (maior (1- x) (1+ y)))
+		)
+		('t (maior (1- x) (1- y)))
+	)
+)
