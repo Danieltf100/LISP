@@ -1,0 +1,16 @@
+(defun incluir (A V)
+	(cond
+		((atom A) (cons V A))
+		((jatem  A V) V)
+		((equal (caar A) (car V)) (cons A (cdr V)))
+		('t (incluir (cdr A) V))
+	)
+)
+
+(defun jatem (A V)
+	(cond
+		((equal (cond ((atom A) A) ('t 't)) 'nil) 'nil)
+		((equal (cdr V) (cdr (car A))) 't)
+		('t (jatem (cdr A) V))
+	)
+)
