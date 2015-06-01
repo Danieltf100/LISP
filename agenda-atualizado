@@ -1,0 +1,71 @@
+;(defun incluir (A V)
+;	(cond
+;		((equal A 'nil) (cons V A))
+;		((jatem  A V) V)
+;		((equal (caar A) (car V)) (cons A (cdr V)))
+;		('t (incluir (cdr A) V))
+;	)
+;)
+
+;(defun jatem (A V)
+;	(cond
+;		((equal (cond ((atom A) A) ('t 't)) 'nil) 'nil)
+;		((equal (cdr V) (cdr (car A))) 't)
+;		('t (jatem (cdr A) V))
+;	)
+;)
+;-------------------------------------------------------------
+(defun incluir (A V)
+	(cond
+		((equal A 'nil) (cons V A))
+		((jatem A V)
+			(cond
+				((temnum (cdar A) (cdr V)) A)
+				('t (cons (cons (caar A) (cons (cdar A) (percorre (cddar A) (cdr V)))) (cdr A)))
+			)
+		)
+		('t (incluirAux (cdr A) V A))
+	)
+)
+(defun incluirAux (A V C)
+	(cond
+		((equal A 'nil) (cons C (cons V 'nil)))
+		((jatem A V)
+			(cond
+				((temnum (cdar A) (cdr V)) A)
+				('t (cons (cons (caar A) (cons (cdar A) (percorre (cddar A) (cdr V)))) (cdr A)))
+			)
+		)
+		('t (incluirAux (cdr A) V C))
+	)
+)
+(defun percorre (A V)
+	(cond
+		((equal A 'nil) (cons (car V) A))
+		('t (percorre (cdar A) V))
+	)
+)
+(defun jatem (A V)
+	(cond
+		((equal A 'nil)
+			(cond
+				((equal V 'nil) 't)
+				('t 'nil)
+			)
+		)
+		((equal (caar A) (car V)) 't)
+		('t (jatem (cdr A) V))
+	)
+)
+(defun temnum (A V)
+	(cond
+		((equal (car A) 'nil)
+			(cond
+				((equal (car V) 'nil) 't)
+				('t 'nil)
+			)
+		)
+		((equal (car A) (car V)) 't)
+		('t (temnum (cdr A) V))
+	)
+)
